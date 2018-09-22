@@ -9,6 +9,7 @@ type Cell struct {
 	Y   int
 	Power int
 	StomachFilling int
+	Team int
 }
 
 func (e Cell) move(newX int, newY int) {
@@ -18,8 +19,9 @@ func (e Cell) move(newX int, newY int) {
 }
 
 func (e Cell) devour(victim Cell) {
-	// consumes closely stand victim if it's not more powerful then current cell
-	// stomach filling increases by the power of the victim but can't be more than current Cell power
+	// Consumes closely stand victim if it's not more powerful then current cell.
+	// Stomach filling increases by the power of the victim but can't be more than current Cell power.
+	// Victims must belong to the different team
 	// INSERT YOUR CODE HERE #######
 }
 
@@ -66,7 +68,8 @@ func main() {
 					i,
 					j,
 					1,
-					0})
+					0,
+					3})
 			}
 		}
 	}
