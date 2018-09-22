@@ -19,18 +19,18 @@ func (e Cell) move(newX int, newY int) {
 }
 
 func (e Cell) devour(victim Cell) {
-	// Consumes closely stand victim if it's not more powerful then current cell.
+	// Consumes a closely standing victim if it's not more powerful then the current cell.
 	// Stomach filling increases by the power of the victim but can't be more than current Cell power.
-	// Victims must belong to the different team
+	// Victims must belong to a different team
 	// INSERT YOUR CODE HERE #######
 }
 
 func (e Cell) divide(direction string) {
 	// add a new Cell with power not more than current stomach filling
-	// current Cell power increases by new Cell power
-	// current StomachFilling decreases by new Cell power
-	// new cell will appear on the right, left, top or bottom of current Cell
-	// it depends on direction value
+	// a current Cell power increases by a new Cell power
+	// a current StomachFilling decreases by a new Cell power
+	// a new cell will appear on the right, left, top or bottom side of the current Cell 
+	// (it depends on a direction value)
 	// ArCells = append(ArCells, newChildCell)
 
 	// INSERT YOUR CODE HERE #######
