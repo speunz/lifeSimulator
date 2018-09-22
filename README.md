@@ -20,8 +20,11 @@ The most powerful cell is the most brighter the point.
 Create the battle between at least two teams of cells. 
 Every battle starts on the field with spaces (0) and obstacles (1).
 On this field 10 cells of each team are randomizely created.
-Each step of the battle call "step" method of each cell. 
-All cell see the battlefield and all other cells.  
+Each step of the battle calls "step" method of each cell. 
+On every step cell decided if it wants to move, 
+where it wants to move. 
+Any cell can devour more weak neighbour cell on each step 
+and also can be divided.
 
 We will create the battle between your cell objects. 
 The developer who will create the most life accommodated 
