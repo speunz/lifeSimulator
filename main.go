@@ -19,7 +19,7 @@ func (e Cell) move(newX int, newY int) {
 
 func (e Cell) devour(victim Cell) {
 	// consumes closely stand victim if it's not more powerful then current cell
-
+	// stomach filling increases by the power of the victim but can't be more than current Cell power
 	// INSERT YOUR CODE HERE #######
 }
 
