@@ -46,12 +46,12 @@ func (t *TeamRandom) Step(cell *Cell) {
 		xOrY := rand.Intn(2)
 
 		if xOrY == 0 {
-			cell.move(cell.X + x)
+			cell.move(cell.X+x, cell.Y)
 		} else {
-			cell.move(cell.Y + y)
+			cell.move(cell.X, cell.Y+y)
 		}
 	case ActionDevour:
-		if c := bi.Get(cell.X+1, cell.Y); c != nil {
+		if c := bi.GetCell(cell.X+1, cell.Y); c != nil {
 			cell.devour(c)
 		}
 	}

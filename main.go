@@ -7,8 +7,8 @@ import (
 	"github.com/andlabs/ui"
 )
 
-var BattleField [100][100]int // global battlefield
-var ArCells []Cell            // global Cells list
+var BattleField [100][100]int     // global battlefield
+var ArCells *[]Cell = new([]Cell) // global Cells list
 var Teams []Team
 
 type BattleInfo struct {
@@ -34,7 +34,7 @@ func (bi *BattleInfo) GetCell(x, y int) *Cell {
 	return nil
 }
 
-var bi = &BattleInfo{&BattleField, &ArcCells, Teams}
+var bi = &BattleInfo{&BattleField, ArCells, Teams}
 
 // GetObstacle returns true if there's an obstacle at the position x, y
 func (bi *BattleInfo) GetObstacle(x, y int) bool {
@@ -55,7 +55,7 @@ func (e Cell) move(newX int, newY int) {
 	e.Y = newY
 }
 
-func (e Cell) devour(victim Cell) {
+func (e Cell) devour(victim *Cell) {
 	// Consumes a closely standing victim if it's not more powerful then the current cell.
 	// Stomach filling increases by the power of the victim but can't be more than current Cell power.
 	// Victims must belong to a different team
@@ -94,7 +94,7 @@ func (e Cell) divide(direction string) {
 		Team:           e.Team,
 	}
 
-	switch divide {
+	switch direction {
 	case "left":
 		nc.X--
 	case "right":
@@ -108,7 +108,7 @@ func (e Cell) divide(direction string) {
 	if nc.X >= 0 && nc.X < 100 && nc.Y >= 0 && nc.Y < 100 {
 		e.Power += nc.Power
 		e.StomachFilling -= nc.Power
-		*ArcCells = append(*ArcCells, nc)
+		*ArCells = append(*ArCells, nc)
 	}
 }
 
@@ -145,7 +145,7 @@ func main() {
 			probability = rand.Intn(100)
 			if probability > 90 {
 				// we will add here the cells of other players
-				ArCells = append(ArCells, Cell{
+				*ArCells = append(*ArCells, Cell{
 					i,
 					j,
 					1,
@@ -160,7 +160,7 @@ func main() {
 
 	bi := BattleInfo{
 		BattleField: &BattleField,
-		Cells:       &ArCells,
+		Cells:       ArCells,
 	}
 	ui.Main(createUI(&bi))
 }

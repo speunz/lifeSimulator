@@ -107,7 +107,7 @@ type statsAreaHandler struct {
 
 func NewStatsAreaHandler(bi *BattleInfo) *statsAreaHandler {
 	ah := &statsAreaHandler{}
-	for i, t := range bi.Teams {
+	for _, t := range bi.Teams {
 		as := ui.NewAttributedString(t.Name())
 		ah.teamStrings = append(ah.teamStrings, as)
 	}
@@ -119,6 +119,7 @@ func (ah *statsAreaHandler) Draw(a *ui.Area, dp *ui.AreaDrawParams) {
 		Width:  100,
 		Align:  ui.DrawTextAlignRight,
 	})
+	_ = tl
 }
 func (ah *statsAreaHandler) MouseEvent(a *ui.Area, me *ui.AreaMouseEvent)            {}
 func (ah *statsAreaHandler) MouseCrossed(a *ui.Area, left bool)                      {}
