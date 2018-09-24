@@ -56,13 +56,13 @@ type Cell struct {
 	Team           int
 }
 
-func (e Cell) move(newX int, newY int) {
+func (e *Cell) move(newX int, newY int) {
 	// increase or decrease Cell coordinates by 1
 	e.X = newX
 	e.Y = newY
 }
 
-func (e Cell) devour(victim *Cell) {
+func (e *Cell) devour(victim *Cell) {
 	// Consumes a closely standing victim if it's not more powerful then the current cell.
 	// Stomach filling increases by the power of the victim but can't be more than current Cell power.
 	// Victims must belong to a different team
@@ -78,7 +78,7 @@ func (e Cell) devour(victim *Cell) {
 	}
 }
 
-func (e Cell) divide(direction string) {
+func (e *Cell) divide(direction string) {
 	// add a new Cell with power not more than current stomach filling
 	// a current Cell power increases by a new Cell power
 	// a current StomachFilling decreases by a new Cell power
@@ -88,7 +88,7 @@ func (e Cell) divide(direction string) {
 
 	// INSERT YOUR CODE HERE #######
 
-	newPow := e.Power / 2
+	newPow := e.Power / (rand.Intn(10) + 1)
 	if newPow > e.StomachFilling {
 		newPow = e.StomachFilling
 	}
@@ -119,7 +119,7 @@ func (e Cell) divide(direction string) {
 	}
 }
 
-func (e Cell) step() {
+func (e *Cell) step() {
 	// this method will be called for each step of the game
 	// during this step current Cell has a right to move and to divide one time
 
@@ -134,7 +134,7 @@ func (e Cell) step() {
 
 	// INSERT YOUR CODE HERE #######
 
-	Teams[e.Team].Step(&e)
+	Teams[e.Team].Step(e)
 }
 
 func tick() {
@@ -151,7 +151,7 @@ func tick() {
 	for i := 0; i < n; i++ {
 		if (*ArCells)[i].X < 0 {
 			shift++
-		} else if shift != 0 {
+		} else if shift != 0 && i+shift < n {
 			(*ArCells)[i] = (*ArCells)[i+shift]
 		}
 	}
@@ -188,7 +188,7 @@ func main() {
 				*ArCells = append(*ArCells, Cell{
 					i,
 					j,
-					1,
+					rand.Intn(0xFF),
 					0,
 					rand.Intn(numTeams)})
 			}
@@ -204,7 +204,7 @@ func main() {
 	}
 
 	go func() {
-		time.Sleep(1 * time.Second)
+		time.Sleep(5 * time.Second)
 
 		start()
 	}()

@@ -1,6 +1,7 @@
 # OpenGift 5th free hackathon
 
 ![Screenshot](./life.png)
+![Gif](./action.gif)
 
 ## MicroLife simulator
 
