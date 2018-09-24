@@ -53,6 +53,27 @@ func (t *TeamRandom) Step(cell *Cell) {
 	case ActionDevour:
 		if c := bi.GetCell(cell.X+1, cell.Y); c != nil {
 			cell.devour(c)
+		} else if c := bi.GetCell(cell.X-1, cell.Y); c != nil {
+			cell.devour(c)
+		} else if c := bi.GetCell(cell.X, cell.Y+1); c != nil {
+			cell.devour(c)
+		} else if c := bi.GetCell(cell.X, cell.Y-1); c != nil {
+			cell.devour(c)
+		}
+	case ActionDivide:
+		avail := func(x, y int) bool {
+			return bi.GetCell(x, y) == nil && !bi.GetObstacle(x, y)
+		}
+
+		switch {
+		case avail(cell.X-1, cell.Y):
+			cell.divide("left")
+		case avail(cell.X+1, cell.Y):
+			cell.divide("right")
+		case avail(cell.X, cell.Y-1):
+			cell.divide("top")
+		case avail(cell.X, cell.Y+1):
+			cell.divide("bottom")
 		}
 	}
 }

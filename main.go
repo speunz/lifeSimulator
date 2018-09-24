@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"time"
 
 	"github.com/andlabs/ui"
 )
@@ -25,6 +26,9 @@ func (bi *BattleInfo) Size() (int, int) {
 
 // Get returns the cell at position x, y
 func (bi *BattleInfo) GetCell(x, y int) *Cell {
+	if x < 0 || x >= 100 || y < 0 || y >= 100 {
+		return nil
+	}
 	for _, c := range *bi.Cells {
 		if c.X == x && c.Y == y {
 			return &c
@@ -38,6 +42,9 @@ var bi = &BattleInfo{&BattleField, ArCells, Teams}
 
 // GetObstacle returns true if there's an obstacle at the position x, y
 func (bi *BattleInfo) GetObstacle(x, y int) bool {
+	if x < 0 || x >= 100 || y < 0 || y >= 100 {
+		return false
+	}
 	return (bi.BattleField[x][y] != 0)
 }
 
@@ -130,6 +137,39 @@ func (e Cell) step() {
 	Teams[e.Team].Step(&e)
 }
 
+func tick() {
+	n := len(*ArCells)
+
+	for i := 0; i < n; i++ {
+		if (*ArCells)[i].X >= 0 {
+			(*ArCells)[i].step()
+		}
+	}
+
+	shift := 0
+	n = len(*ArCells)
+	for i := 0; i < n; i++ {
+		if (*ArCells)[i].X < 0 {
+			shift++
+		} else if shift != 0 {
+			(*ArCells)[i] = (*ArCells)[i+shift]
+		}
+	}
+
+	*ArCells = (*ArCells)[:n-shift]
+}
+
+func start() {
+	t := time.NewTicker(100 * time.Millisecond)
+	for range t.C {
+		tick()
+
+		ui.QueueMain(func() {
+			area.QueueRedrawAll()
+		})
+	}
+}
+
 func main() {
 	var i, j, probability int
 	const numTeams = 5
@@ -162,5 +202,11 @@ func main() {
 		BattleField: &BattleField,
 		Cells:       ArCells,
 	}
+
+	go func() {
+		time.Sleep(1 * time.Second)
+
+		start()
+	}()
 	ui.Main(createUI(&bi))
 }

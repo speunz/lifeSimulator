@@ -11,6 +11,7 @@ const (
 
 var (
 	window *ui.Window
+	area   *ui.Area
 )
 
 // Colors for different teams
@@ -131,9 +132,9 @@ func createUI(bi *BattleInfo) func() {
 		ah := battleGridAreaHandler{
 			bi: bi,
 		}
-		a := ui.NewArea(&ah)
+		area = ui.NewArea(&ah)
 		vbox := ui.NewVerticalBox()
-		vbox.Append(a, true)
+		vbox.Append(area, true)
 
 		window = ui.NewWindow("Life Simulator", 640, 480, true)
 		window.SetChild(vbox)
